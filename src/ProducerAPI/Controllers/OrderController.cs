@@ -1,4 +1,5 @@
 ﻿using Core;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using RabbitMQ.Client;
 using System.Text;
@@ -10,8 +11,17 @@ namespace ProducerAPI.Controllers;
 [Route("/Order")]
 public class OrderController : ControllerBase
 {
-    [HttpPost]
-    public IActionResult PostOrder(Order order)
+    private readonly IBus _bus;
+    private readonly IConfiguration _configuration;
+
+    public OrderController(IBus bus, IConfiguration configuration)
+    {
+        _bus = bus;
+        _configuration = configuration;
+    }
+
+    [HttpPost("rabbitmq")]
+    public IActionResult PostOrderWithRabbitMq(Order order)
     {
         var factory = new ConnectionFactory()
         {
@@ -40,6 +50,18 @@ public class OrderController : ControllerBase
                 basicProperties: null,
                 body: body);
         }
+
+        return Ok(order);
+    }
+
+    [HttpPost("masstransit")]
+    public async Task<IActionResult> PutOrderWithMassTransit(Order order)
+    {
+        var queueName = _configuration.GetSection("MassTransit")["QueueName"];
+        
+        var endpoint = await _bus.GetSendEndpoint(new Uri($"queue:{queueName}"));
+
+        await endpoint.Send(order);
 
         return Ok(order);
     }
