@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "src\Core\Core.cspro
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProducerAPI", "src\ProducerAPI\ProducerAPI.csproj", "{544D2BBD-16CC-4A6D-9B2C-742F13BFC348}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumerWorker", "ConsumerWorker\ConsumerWorker.csproj", "{0AC3DAE9-93BB-4AF2-BE26-754C2CD91CFA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumerWorker", "src\ConsumerWorker\ConsumerWorker.csproj", "{0AC3DAE9-93BB-4AF2-BE26-754C2CD91CFA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
