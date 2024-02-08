@@ -34,7 +34,7 @@ public class OrderController : ControllerBase
         using (var channel = connection.CreateModel())
         {
             channel.QueueDeclare(
-                queue: "queue",
+                queue: "rabbitqueue",
                 durable: false,
                 exclusive: false,
                 autoDelete: false,
@@ -46,7 +46,7 @@ public class OrderController : ControllerBase
 
             channel.BasicPublish(
                 exchange: "",
-                routingKey: "queue",
+                routingKey: "rabbitqueue",
                 basicProperties: null,
                 body: body);
         }

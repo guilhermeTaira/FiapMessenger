@@ -22,7 +22,7 @@ public class Worker : BackgroundService
             using var connection = factory.CreateConnection();
             using var channel = connection.CreateModel();
             channel.QueueDeclare(
-                queue: "queue",
+                queue: "rabbitqueue",
                 durable: false,
                 exclusive: false,
                 autoDelete: false,
@@ -36,11 +36,11 @@ public class Worker : BackgroundService
                 var message = Encoding.UTF8.GetString(body);
 
                 var order = JsonSerializer.Deserialize<Order>(message);
-                Console.WriteLine(order?.ToString());
+                Console.WriteLine($"RabbitMQ - {order?.ToString()}");
             };
 
             channel.BasicConsume(
-                queue: "queue",
+                queue: "rabbitqueue",
                 autoAck: true,
                 consumer: consumer);
 
